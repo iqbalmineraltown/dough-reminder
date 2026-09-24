@@ -1,0 +1,1 @@
+{"name":"Dough Reminder","short_name":"Dough","description":"Local sourdough countdown reminders","start_url":"./","scope":"./","display":"standalone","background_color":"#f6f1e8","theme_color":"#473b2e","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}

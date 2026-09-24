@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#473b2e">
+  <meta name="description" content="A local sourdough countdown and reminder.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <title>Dough Reminder</title>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header><span class="mark" aria-hidden="true">◌</span><div><h1>Dough Reminder</h1><p>One step at a time, on your device.</p></div></header>
+    <section class="card" aria-labelledby="next-title">
+      <p class="eyebrow">Next action</p>
+      <h2 id="next-title">Start a bake</h2>
+      <p id="instruction">Start the autolyse when your dough is ready.</p>
+      <output id="countdown" aria-live="off">30:00</output>
+      <p id="due"></p>
+      <div class="actions"><button id="action">Start autolyse</button><button id="reset" class="secondary" hidden>Reset bake</button></div>
+    </section>
+    <section class="card" aria-labelledby="schedule-title"><h2 id="schedule-title">Sourdough preset</h2><ol id="schedule"></ol></section>
+    <section class="card settings"><h2>Reminders on mobile</h2><button id="notifications" class="secondary">Enable notifications</button><p id="notification-status" role="status"></p><p>Install from your browser menu: “Add to Home Screen” on iPhone or “Install app” on Android. Keep the PWA open and the phone awake for an on-time reminder. Mobile systems suspend background pages, so a closed app or locked phone will not reliably notify you. Use a separate alarm for time-critical steps.</p></section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,30 @@
+name: Deploy tagged release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-pages-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out tagged version
+        uses: actions/checkout@v4
+      - name: Stage public assets
+        run: |
+          mkdir dist
+          cp index.html app.js style.css sw.js manifest.webmanifest icon.svg dist/
+      - name: Deploy static PWA to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=dough-reminder --branch=main
