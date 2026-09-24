@@ -1,5 +1,5 @@
-const CACHE = 'dough-reminder-v1';
-const FILES = ['./', 'index.html', 'style.css', 'app.js', 'icon.svg', 'manifest.webmanifest'];
+const CACHE = 'dough-reminder-v2';
+const FILES = ['./', 'index.html', 'style.css', 'app.js', 'schedule.js', 'icon.svg', 'manifest.webmanifest'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));
 });

@@ -1,27 +1,53 @@
-name: Deploy tagged release
+name: Test and deploy
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: ['**']
+    tags: ['**']
 
 permissions:
   contents: read
 
-concurrency:
-  group: cloudflare-pages-production
-  cancel-in-progress: false
-
 jobs:
-  deploy:
+  unit:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  ui:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: unit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:ui
+
+  deploy:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: ui
+    runs-on: ubuntu-latest
+    concurrency:
+      group: cloudflare-pages-production
+      cancel-in-progress: false
     steps:
       - name: Check out tagged version
         uses: actions/checkout@v4
       - name: Stage public assets
         run: |
           mkdir dist
-          cp index.html app.js style.css sw.js manifest.webmanifest icon.svg dist/
+          cp index.html app.js schedule.js style.css sw.js manifest.webmanifest icon.svg dist/
       - name: Deploy static PWA to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
