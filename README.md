@@ -12,10 +12,10 @@ Photos and Instagram exports are not part of this reminder-only version.
 
 The workflow in `.github/workflows/deploy.yml` publishes the exact tagged commit when a `v*` tag is pushed to GitHub. Ordinary branch pushes do not deploy. The deploy command sets `--branch=main`, so each tagged build becomes the production deployment rather than a preview.
 
-The `dough-reminder` Direct Upload Pages project is live at https://dough-reminder.pages.dev/ with production branch `main`. GitHub Actions, not Cloudflare Git integration, publishes future versions. Before the first tagged release:
+The `dough-reminder` Direct Upload Pages project is live at https://dough-reminder.pages.dev/ with production branch `main`. GitHub Actions, not Cloudflare Git integration, publishes future versions. To enable tagged releases:
 
-1. Create a Cloudflare API token with **Account → Cloudflare Pages → Edit** permission scoped to your account. Find the account ID in the Cloudflare dashboard.
-2. In `iqbalmineraltown/dough-reminder` on GitHub, set repository Actions secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Allow GitHub Actions to run in repository settings.
-3. From a commit containing the workflow, run `git tag v1.0.0` and `git push origin v1.0.0`. Subsequent `v*` tags deploy automatically; check the **Deploy tagged release** workflow and the production URL.
+1. Create a Cloudflare API token with **Account → Cloudflare Pages → Edit** permission scoped to the account that owns `dough-reminder` (`80be241359edfb86a57a276a645587ff`). Use the token value itself, without `Bearer ` or surrounding quotes.
+2. In `iqbalmineraltown/dough-reminder` on GitHub, set the **Actions** repository secret `CLOUDFLARE_API_TOKEN` (not Codespaces secrets). The account ID is configured in the workflow. Allow GitHub Actions to run in repository settings.
+3. From a commit containing the workflow, run `git tag v1.0.3` and `git push origin v1.0.3` (or use the next unused version). Subsequent `v*` tags deploy automatically; check the **Deploy tagged release** workflow and the production URL.
 
 Do not reuse a tag to deploy a different commit: create a new version tag. Keep Cloudflare credentials in GitHub Secrets, never in this repository.
